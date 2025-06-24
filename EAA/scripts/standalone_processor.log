@@ -1,7 +1,0 @@
-2025-04-04 19:34:35,201 - INFO - Processing C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx -> C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\standalone_output.csv
-2025-04-04 19:34:35,201 - INFO - Using mock data: True
-2025-04-04 19:34:35,202 - INFO - Extracting data from C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
-2025-04-04 19:34:35,202 - INFO - Using mock content for C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
-2025-04-04 19:34:35,209 - INFO - Extracted 3 employee records from C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
-2025-04-04 19:34:35,211 - INFO - Data saved to C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\standalone_output.csv
-2025-04-04 19:34:35,212 - INFO - Successfully processed C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
