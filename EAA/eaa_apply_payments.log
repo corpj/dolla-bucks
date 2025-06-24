@@ -1,0 +1,10 @@
+2025-03-14 10:20:18,510 - INFO - Starting payment application process
+2025-03-14 10:20:18,602 - INFO - Applied 14 payments
+2025-03-14 10:20:18,609 - INFO - Successfully applied 14 payments
+2025-03-14 10:20:18,609 - INFO - Total applied payments: 14
+2025-03-14 10:20:18,614 - INFO - Database connection closed
+2025-03-14 10:23:00,937 - INFO - Starting payment application process
+2025-03-14 10:23:01,029 - INFO - Applied 1 payments
+2025-03-14 10:23:01,037 - INFO - Successfully applied 1 payments
+2025-03-14 10:23:01,037 - INFO - Total applied payments: 15
+2025-03-14 10:23:01,043 - INFO - Database connection closed

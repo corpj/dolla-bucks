@@ -1,0 +1,31 @@
+2025-03-14 09:57:32,178 - __main__ - INFO - Processing document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 09:57:32,178 - __main__ - INFO - Step 1: Extracting data from Word document
+2025-03-14 09:57:32,183 - __main__ - INFO - Step 2: Saving data to CSV
+2025-03-14 09:57:32,183 - __main__ - INFO - Step 3: Importing data to database
+2025-03-14 09:57:32,273 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-03-14 09:57:32,273 - mysql.connector - INFO - plugin_name: mysql_native_password
+2025-03-14 09:57:32,275 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-03-14 09:57:32,430 - __main__ - INFO - Database connection closed.
+2025-03-14 09:57:32,431 - __main__ - INFO - Successfully processed document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 09:57:32,431 - __main__ - INFO - Document processing completed successfully.
+2025-03-14 09:58:25,534 - __main__ - INFO - Processing document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 09:58:25,535 - __main__ - INFO - Step 1: Extracting data from Word document
+2025-03-14 09:58:25,539 - __main__ - INFO - Step 2: Saving data to CSV
+2025-03-14 09:58:25,540 - __main__ - INFO - Step 3: Importing data to database
+2025-03-14 09:58:25,680 - __main__ - INFO - Database connection closed.
+2025-03-14 09:58:25,680 - __main__ - INFO - Successfully processed document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 09:58:25,681 - __main__ - INFO - Document processing completed successfully.
+2025-03-14 10:01:08,607 - __main__ - INFO - Processing document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 10:01:08,607 - __main__ - INFO - Step 1: Extracting data from Word document
+2025-03-14 10:01:08,611 - __main__ - INFO - Step 2: Saving data to CSV
+2025-03-14 10:01:08,612 - __main__ - INFO - Step 3: Importing data to database
+2025-03-14 10:01:08,781 - __main__ - INFO - Database connection closed.
+2025-03-14 10:01:08,781 - __main__ - INFO - Successfully processed document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 10:01:08,782 - __main__ - INFO - Document processing completed successfully.
+2025-03-14 10:13:39,290 - __main__ - INFO - Processing document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 10:13:39,290 - __main__ - INFO - Step 1: Extracting data from Word document
+2025-03-14 10:13:39,294 - __main__ - INFO - Step 2: Saving data to CSV
+2025-03-14 10:13:39,295 - __main__ - INFO - Step 3: Importing data to database
+2025-03-14 10:13:45,433 - __main__ - INFO - Database connection closed.
+2025-03-14 10:13:45,433 - __main__ - INFO - Successfully processed document: C:\Users\CorporateJewelers\pythonapps\pj-app\payments\EAA\CorporateJewelers031425.docx
+2025-03-14 10:13:45,433 - __main__ - INFO - Document processing completed successfully.

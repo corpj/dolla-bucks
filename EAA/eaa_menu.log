@@ -1,0 +1,17 @@
+2025-03-14 10:33:38,248 - INFO - Database connection closed
+2025-03-14 10:36:30,180 - INFO - package: mysql.connector.plugins
+2025-03-14 10:36:30,180 - INFO - plugin_name: mysql_native_password
+2025-03-14 10:36:30,181 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-03-14 10:36:30,255 - INFO - Database connection closed
+2025-03-14 10:39:54,999 - INFO - Database connection closed
+2025-03-14 10:41:40,979 - INFO - Database connection closed
+2025-03-14 10:42:42,837 - INFO - Database connection closed
+2025-03-14 10:45:45,583 - ERROR - Error updating customer ID manually: 1366 (HY000): Incorrect integer value: '' for column 'clientID' at row 1
+2025-03-14 10:45:45,588 - INFO - Database connection closed
+2025-03-14 10:45:49,064 - INFO - Database connection closed
+2025-03-14 10:52:22,792 - INFO - package: mysql.connector.plugins
+2025-03-14 10:52:22,793 - INFO - plugin_name: mysql_native_password
+2025-03-14 10:52:22,793 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2025-03-14 10:52:22,823 - INFO - Database connection closed
+2025-03-14 10:52:41,692 - INFO - Database connection closed
+2025-03-14 10:52:48,156 - INFO - Database connection closed

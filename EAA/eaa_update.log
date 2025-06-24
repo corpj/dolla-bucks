@@ -1,0 +1,41 @@
+2025-03-14 10:18:18,936 - INFO - Starting client ID update process
+2025-03-14 10:18:19,038 - INFO - Updated 13 records with EmployerID = 160
+2025-03-14 10:18:19,050 - INFO - Updated 1 records with any EmployerID
+2025-03-14 10:18:19,051 - INFO - Total records updated: 14
+2025-03-14 10:18:19,059 - INFO - Successfully updated 14 records
+2025-03-14 10:18:19,059 - INFO - Records with clientID: 14
+2025-03-14 10:18:19,059 - INFO - First 5 updated records:
+2025-03-14 10:18:19,059 - INFO -   ID: 2, SSN: 112729364, Name: Octavia T. Jones, ClientID: 24592
+2025-03-14 10:18:19,060 - INFO -   ID: 3, SSN: 188560244, Name: Keith E. Blackmon, ClientID: 1182
+2025-03-14 10:18:19,060 - INFO -   ID: 4, SSN: 212421546, Name: Vernetta A. Tilley, ClientID: 1548
+2025-03-14 10:18:19,060 - INFO -   ID: 5, SSN: 212802037, Name: Katrina M. Crosby, ClientID: 1431
+2025-03-14 10:18:19,061 - INFO -   ID: 6, SSN: 212988864, Name: Daniel B. Rivas, ClientID: 1424
+2025-03-14 10:18:19,065 - INFO - Database connection closed
+2025-03-14 10:19:27,460 - INFO - Starting client ID update process
+2025-03-14 10:19:27,539 - INFO - Updated 0 records with EmployerID in (160, 199, 225)
+2025-03-14 10:19:27,545 - INFO - Updated 0 records with any EmployerID
+2025-03-14 10:19:27,545 - INFO - Total records updated: 0
+2025-03-14 10:19:27,549 - INFO - Successfully updated 0 records
+2025-03-14 10:19:27,549 - INFO - Records with clientID: 14
+2025-03-14 10:19:27,551 - INFO - First 5 updated records:
+2025-03-14 10:19:27,551 - INFO -   ID: 2, SSN: 112729364, Name: Octavia T. Jones, ClientID: 24592
+2025-03-14 10:19:27,551 - INFO -   ID: 3, SSN: 188560244, Name: Keith E. Blackmon, ClientID: 1182
+2025-03-14 10:19:27,551 - INFO -   ID: 4, SSN: 212421546, Name: Vernetta A. Tilley, ClientID: 1548
+2025-03-14 10:19:27,551 - INFO -   ID: 5, SSN: 212802037, Name: Katrina M. Crosby, ClientID: 1431
+2025-03-14 10:19:27,551 - INFO -   ID: 6, SSN: 212988864, Name: Daniel B. Rivas, ClientID: 1424
+2025-03-14 10:19:27,553 - INFO - Database connection closed
+2025-03-14 10:22:50,935 - INFO - Starting client ID update process
+2025-03-14 10:22:51,026 - INFO - Updated 0 records with EmployerID in (160, 199, 225)
+2025-03-14 10:22:51,032 - INFO - Updated 0 records with any EmployerID
+2025-03-14 10:22:51,044 - INFO - Updated record ID 1 with SSN 071584406 to match SSN without leading zero 71584406, ClientID: 1071
+2025-03-14 10:22:51,046 - INFO - Updated 1 records by handling leading zeros
+2025-03-14 10:22:51,052 - INFO - Total records updated: 1
+2025-03-14 10:22:51,056 - INFO - Successfully updated 1 records
+2025-03-14 10:22:51,056 - INFO - Records with clientID: 15
+2025-03-14 10:22:51,056 - INFO - First 5 updated records:
+2025-03-14 10:22:51,057 - INFO -   ID: 1, SSN: 071584406, Name: Kenya D. Brown, ClientID: 1071
+2025-03-14 10:22:51,057 - INFO -   ID: 2, SSN: 112729364, Name: Octavia T. Jones, ClientID: 24592
+2025-03-14 10:22:51,057 - INFO -   ID: 3, SSN: 188560244, Name: Keith E. Blackmon, ClientID: 1182
+2025-03-14 10:22:51,057 - INFO -   ID: 4, SSN: 212421546, Name: Vernetta A. Tilley, ClientID: 1548
+2025-03-14 10:22:51,057 - INFO -   ID: 5, SSN: 212802037, Name: Katrina M. Crosby, ClientID: 1431
+2025-03-14 10:22:51,060 - INFO - Database connection closed

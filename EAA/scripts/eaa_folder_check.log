@@ -1,0 +1,50 @@
+2025-04-04 19:21:50,070 - INFO - === EAA Folder Structure Check ===
+2025-04-04 19:21:50,070 - INFO - Checking root folder: R:\Payments
+2025-04-04 19:21:50,072 - INFO - Checking folder: R:\Payments
+2025-04-04 19:21:50,083 - INFO - Folder contains 11 subfolders and 5 files
+2025-04-04 19:21:50,083 - INFO - Found 0 Word documents (.docx files)
+2025-04-04 19:21:50,083 - INFO - Checking folder: R:\Payments\2016
+2025-04-04 19:21:50,104 - INFO - Folder contains 0 subfolders and 29 files
+2025-04-04 19:21:50,104 - INFO - Found 28 Word documents (.docx files)
+2025-04-04 19:21:50,104 - INFO - Checking folder: R:\Payments\2017
+2025-04-04 19:21:50,122 - INFO - Folder contains 0 subfolders and 26 files
+2025-04-04 19:21:50,122 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,123 - INFO - Checking folder: R:\Payments\2018
+2025-04-04 19:21:50,140 - INFO - Folder contains 0 subfolders and 27 files
+2025-04-04 19:21:50,140 - INFO - Found 27 Word documents (.docx files)
+2025-04-04 19:21:50,140 - INFO - Checking folder: R:\Payments\2019
+2025-04-04 19:21:50,145 - INFO - Folder contains 1 subfolders and 4 files
+2025-04-04 19:21:50,145 - INFO - Found 3 Word documents (.docx files)
+2025-04-04 19:21:50,145 - INFO - Checking folder: R:\Payments\2019\archive
+2025-04-04 19:21:50,171 - INFO - Folder contains 0 subfolders and 42 files
+2025-04-04 19:21:50,171 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,171 - INFO - Checking folder: R:\Payments\2020
+2025-04-04 19:21:50,175 - INFO - Folder contains 1 subfolders and 3 files
+2025-04-04 19:21:50,175 - INFO - Found 1 Word documents (.docx files)
+2025-04-04 19:21:50,175 - INFO - Checking folder: R:\Payments\2020\archive
+2025-04-04 19:21:50,207 - INFO - Folder contains 0 subfolders and 52 files
+2025-04-04 19:21:50,207 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,207 - INFO - Checking folder: R:\Payments\2021
+2025-04-04 19:21:50,209 - INFO - Folder contains 1 subfolders and 0 files
+2025-04-04 19:21:50,209 - INFO - Found 0 Word documents (.docx files)
+2025-04-04 19:21:50,209 - INFO - Checking folder: R:\Payments\2021\archive
+2025-04-04 19:21:50,245 - INFO - Folder contains 0 subfolders and 57 files
+2025-04-04 19:21:50,245 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,246 - INFO - Checking folder: R:\Payments\2022
+2025-04-04 19:21:50,248 - INFO - Folder contains 1 subfolders and 0 files
+2025-04-04 19:21:50,248 - INFO - Found 0 Word documents (.docx files)
+2025-04-04 19:21:50,248 - INFO - Checking folder: R:\Payments\2022\archive
+2025-04-04 19:21:50,304 - INFO - Folder contains 0 subfolders and 49 files
+2025-04-04 19:21:50,304 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,305 - INFO - Checking folder: R:\Payments\2023
+2025-04-04 19:21:50,330 - INFO - Folder contains 0 subfolders and 26 files
+2025-04-04 19:21:50,330 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,330 - INFO - Checking folder: R:\Payments\2024
+2025-04-04 19:21:50,348 - INFO - Folder contains 0 subfolders and 26 files
+2025-04-04 19:21:50,349 - INFO - Found 26 Word documents (.docx files)
+2025-04-04 19:21:50,349 - INFO - Checking folder: R:\Payments\2025
+2025-04-04 19:21:50,353 - INFO - Folder contains 0 subfolders and 5 files
+2025-04-04 19:21:50,353 - INFO - Found 5 Word documents (.docx files)
+2025-04-04 19:21:50,353 - INFO - Checking folder: R:\Payments\NewPayments
+2025-04-04 19:21:50,356 - INFO - Folder contains 0 subfolders and 2 files
+2025-04-04 19:21:50,356 - INFO - Found 2 Word documents (.docx files)
