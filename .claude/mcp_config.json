@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fastmcp-cloudclusters": {
+      "command": "bash",
+      "args": ["./start_server_wrapper.sh"],
+      "cwd": "/home/administrator/projects/tha-illest-playa-playa/mcp-server-clean",
+      "env": {
+        "PYTHONPATH": "/home/administrator/projects/tha-illest-playa-playa/mcp-server-clean"
+      }
+    }
+  }
+}
