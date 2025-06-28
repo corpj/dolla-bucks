@@ -2,7 +2,7 @@
 
 This document outlines the process used to map the raw PNC transactions in the cloudclusters.spider_sync_DEV databse.
 
-## Workflow
+## Existing Workflow
 
 **Step 1:** Inserting payments via PNC/import_pnc_payments.py
 **Step 2:** Count Number of Payments and see payments to insert
@@ -75,3 +75,11 @@ WHERE
 
 SELECT * FROM pnc_customer_payid WHERE clientID IS NULL;
 
+Review the remaining .sql statements
+1. PNC/CustomerMapping/sql/pnc_payments_step1.sql
+2. PNC/CustomerMapping/sql/pnc_payments_step2.sql
+3. PNC/CustomerMapping/sql/pnc_payments_step3.sql
+4. PNC/CustomerMapping/sql/pnc_payments_step4.sql
+5. PNC/CustomerMapping/sql/pnc_payments_step5.sql
+6. PNC/CustomerMapping/sql/pnc_payments_step6.sql
+7. PNC/CustomerMapping/sql/pnc_payments_step7.sql

@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "dolla-bucks",
+      "uri": "vscode-remote://ssh-remote+Projects-Dolla-Bucks/home/administrator/projects/dolla-bucks"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "remote.SSH.remotePlatform": {
+      "Projects-Dolla-Bucks": "linux"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-vscode.remote-ssh"
+    ]
+  }
+}
