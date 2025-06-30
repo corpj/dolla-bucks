@@ -14,10 +14,27 @@ import pandas as pd
 from datetime import datetime
 import logging
 import mysql.connector
+import argparse
+import shutil
+import glob
 
 # Add parent directory to path to import utils
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.MySQLConnectionManager import MySQLConnectionManager
+
+# Configure logging
+log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+os.makedirs(log_dir, exist_ok=True)
+log_filename = os.path.join(log_dir, f'eaa_import_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_filename),
+        logging.StreamHandler()
+    ]
+)
 
 
 def create_table_if_not_exists(connection):
@@ -237,39 +254,181 @@ def update_client_ids(connection):
         cursor.close()
 
 
+def archive_file(file_path, archive_dir):
+    """
+    Archive a file to the specified directory.
+    
+    Args:
+        file_path (str): Path to the file to archive
+        archive_dir (str): Directory to move the file to
+    
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        os.makedirs(archive_dir, exist_ok=True)
+        filename = os.path.basename(file_path)
+        archive_path = os.path.join(archive_dir, filename)
+        
+        # If file already exists in archive, add timestamp
+        if os.path.exists(archive_path):
+            base, ext = os.path.splitext(filename)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{base}_{timestamp}{ext}"
+            archive_path = os.path.join(archive_dir, filename)
+        
+        shutil.move(file_path, archive_path)
+        logging.info(f"Archived {file_path} to {archive_path}")
+        
+        # Check for Zone.Identifier file
+        zone_file = f"{file_path}:Zone.Identifier"
+        if os.path.exists(zone_file):
+            zone_archive_path = f"{archive_path}:Zone.Identifier"
+            try:
+                shutil.move(zone_file, zone_archive_path)
+                logging.info(f"Archived Zone.Identifier file")
+            except Exception as e:
+                logging.warning(f"Could not archive Zone.Identifier file: {e}")
+        
+        return True
+    except Exception as e:
+        logging.error(f"Error archiving file: {e}")
+        return False
+
+
+def get_csv_files(directory):
+    """
+    Get all CSV files from the specified directory.
+    
+    Args:
+        directory (str): Directory to search for CSV files
+    
+    Returns:
+        list: List of CSV file paths
+    """
+    csv_pattern = os.path.join(directory, "*.csv")
+    return glob.glob(csv_pattern)
+
+
 def main():
     """Main function to import CSV data into the database."""
-    # Get the directory of this script
+    parser = argparse.ArgumentParser(description="Import EAA payment data from CSV files")
+    parser.add_argument(
+        "file", 
+        nargs="?", 
+        help="Specific CSV file to import (optional)"
+    )
+    parser.add_argument(
+        "--directory", "-d",
+        default="../PaymentFiles/EAA",
+        help="Directory to search for CSV files (default: ../PaymentFiles/EAA)"
+    )
+    parser.add_argument(
+        "--archive", "-a",
+        default="../PaymentFiles/EAA/archive",
+        help="Archive directory for processed files (default: ../PaymentFiles/EAA/archive)"
+    )
+    parser.add_argument(
+        "--no-archive",
+        action="store_true",
+        help="Do not archive files after processing"
+    )
+    
+    args = parser.parse_args()
+    
+    # Get the base directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Define input file
-    input_file = os.path.join(script_dir, 'CorporateJewelers031425.csv')
+    # Determine files to process
+    files_to_process = []
     
-    # Check if input file exists
-    if not os.path.exists(input_file):
-        print(f"Input file not found: {input_file}")
-        return
+    if args.file:
+        # Specific file provided
+        if os.path.exists(args.file):
+            files_to_process = [args.file]
+        else:
+            # Check in the default directory
+            file_path = os.path.join(script_dir, args.directory, args.file)
+            if os.path.exists(file_path):
+                files_to_process = [file_path]
+            else:
+                logging.error(f"File not found: {args.file}")
+                return
+    else:
+        # Get all CSV files from directory
+        search_dir = os.path.join(script_dir, args.directory)
+        if os.path.exists(search_dir):
+            files_to_process = get_csv_files(search_dir)
+            if not files_to_process:
+                logging.info(f"No CSV files found in {search_dir}")
+                return
+        else:
+            logging.error(f"Directory not found: {search_dir}")
+            return
+    
+    logging.info(f"Found {len(files_to_process)} file(s) to process")
     
     # Connect to the SPIDERSYNC database
     db_manager = MySQLConnectionManager()
     connection = db_manager.connect_to_spidersync()
     
     if not connection:
-        print("Failed to connect to the SPIDERSYNC database.")
+        logging.error("Failed to connect to the SPIDERSYNC database.")
         return
     
-    try:
-        # Import data from CSV to database
-        if import_csv_to_database(input_file, connection):
-            # Update client IDs
-            print("\nUpdating client IDs...")
-            update_client_ids(connection)
+    # Process each file
+    successful_imports = []
+    failed_imports = []
     
-    finally:
-        # Close the database connection
-        if connection.is_connected():
-            connection.close()
-            print("Database connection closed.")
+    for csv_file in files_to_process:
+        logging.info(f"\nProcessing: {csv_file}")
+        
+        try:
+            # Import data from CSV to database
+            if import_csv_to_database(csv_file, connection):
+                # Update client IDs
+                logging.info("Updating client IDs...")
+                updated_count = update_client_ids(connection)
+                logging.info(f"Updated {updated_count} client IDs")
+                
+                successful_imports.append(csv_file)
+                
+                # Archive the file if requested
+                if not args.no_archive:
+                    archive_dir = os.path.join(script_dir, args.archive)
+                    if archive_file(csv_file, archive_dir):
+                        logging.info(f"Successfully archived {csv_file}")
+                    else:
+                        logging.warning(f"Failed to archive {csv_file}")
+            else:
+                failed_imports.append(csv_file)
+                
+        except Exception as e:
+            logging.error(f"Error processing {csv_file}: {e}")
+            failed_imports.append(csv_file)
+    
+    # Close the database connection
+    if connection.is_connected():
+        connection.close()
+        logging.info("Database connection closed.")
+    
+    # Summary
+    logging.info("\n" + "=" * 50)
+    logging.info("IMPORT SUMMARY")
+    logging.info("=" * 50)
+    logging.info(f"Total files processed: {len(files_to_process)}")
+    logging.info(f"Successful imports: {len(successful_imports)}")
+    logging.info(f"Failed imports: {len(failed_imports)}")
+    
+    if successful_imports:
+        logging.info("\nSuccessfully imported:")
+        for f in successful_imports:
+            logging.info(f"  - {os.path.basename(f)}")
+    
+    if failed_imports:
+        logging.info("\nFailed to import:")
+        for f in failed_imports:
+            logging.info(f"  - {os.path.basename(f)}")
 
 
 if __name__ == "__main__":

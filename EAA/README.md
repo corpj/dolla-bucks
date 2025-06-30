@@ -8,15 +8,31 @@ This set of scripts processes Federal Employees Activities Association (EAA) pay
 - Preserves SSNs with leading zeros
 - Converts data to CSV format
 - Imports data into the SPIDERSYNC database
-- Provides logging and error handling
+- Automatic file archiving after successful processing
+- Handles Windows Zone.Identifier metadata files
+- Command-line interface with flexible options
+- Comprehensive logging and error handling
 - Matches customer records based on SSN and employer ID
 
 ## Files
 
+### Core Processing Scripts
 - `eaa_data_processor.py` - Extracts data from Word documents and converts to CSV
-- `eaa_db_importer.py` - Imports CSV data into the SPIDERSYNC database
-- `eaa_main.py` - Main script that orchestrates the entire process
+- `eaa_db_importer.py` - Enhanced CSV importer with file archiving and CLI support
+- `process_eaa_payments.py` - Comprehensive workflow script (DOCX → CSV → Database → Archive)
+- `payments_module_menu.py` - Interactive menu-driven interface for payment processing
+
+### Utility Scripts
+- `apply_payments.py` - Applies imported payments to customer accounts
 - `check_db.py` - Utility script to verify database records
+- `check_import_status.py` - Checks import status for specific dates
+- `archive_completed_files.py` - Archives successfully imported files
+- `test_db_connection.py` - Tests database connectivity and table structure
+
+### Configuration
+- `requirements.txt` - Python package dependencies
+- `models.py` - SQLAlchemy models for database tables
+- `eaa_sqlalchemy_importer.py` - Alternative SQLAlchemy-based importer
 
 ## Database Schema
 
@@ -44,37 +60,120 @@ The data is stored in the `eaa_payments` table with the following structure:
 
 The system automatically attempts to match EAA payment records to customer records in the database:
 
-1. First, it searches for matches where SSN matches `customers.socsec` AND `customers.employerid = 160`
+1. First, it searches for matches where SSN matches `customers.socsec` AND `customers.employerid` is in (160, 199, 225)
 2. If no match is found, it expands the search to any employer
-3. When a match is found, it updates the `clientID` field with the customer's `primaryclientID`
+3. Special handling for SSNs with leading zeros (tries with and without leading zero)
+4. When a match is found, it updates the `clientID` field with the customer's `primaryclientID`
+
+## Installation
+
+1. Create and activate the virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Linux/Mac
+   # or
+   .\venv\Scripts\activate  # On Windows
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
-1. Activate the virtual environment:
-   ```powershell
-.\venv\Scripts\activate
+### Complete Workflow (Recommended)
+Process DOCX files from PaymentFiles/EAA directory through the entire workflow:
+```bash
+# Process all DOCX files, convert to CSV, import to database, and archive
+python process_eaa_payments.py
+
+# Process a specific file
+python process_eaa_payments.py "Corporate Jewelers062025.docx"
+
+# Convert to CSV only (no database import)
+python process_eaa_payments.py --csv-only
+
+# Process without archiving
+python process_eaa_payments.py --no-archive
 ```
-2. Run the data processor to extract data from the Word document:
-   ```powershell
-python eaa_data_processor.py path/to/document.docx
+
+### Individual Steps
+
+1. Extract data from Word document to CSV:
+   ```bash
+   python eaa_data_processor.py
+   ```
+
+2. Import CSV data to database:
+   ```bash
+   # Import all CSV files from PaymentFiles/EAA
+   python eaa_db_importer.py
+   
+   # Import specific file
+   python eaa_db_importer.py /path/to/file.csv
+   
+   # Import without archiving
+   python eaa_db_importer.py --no-archive
+   ```
+
+3. Apply payments to customer accounts:
+   ```bash
+   python apply_payments.py
+   ```
+
+4. Interactive menu interface:
+   ```bash
+   python payments_module_menu.py
+   ```
+
+### Utility Commands
+
+Check database connection:
+```bash
+python test_db_connection.py
 ```
-3. Run the database importer to import the extracted data:
-   ```powershell
-python eaa_db_importer.py path/to/csv_file.csv
+
+Check import status:
+```bash
+python check_import_status.py
 ```
-4. Check the database to verify the imported data:
-   ```powershell
-python check_db.py
+
+Archive completed files:
+```bash
+python archive_completed_files.py
 ```
+
+## File Organization
+
+- **Input Directory**: `/PaymentFiles/EAA/` - Place DOCX files here for processing
+- **Archive Directory**: `/PaymentFiles/EAA/archive/` - Processed files are moved here
+- **Log Directory**: `/EAA/logs/` - Processing logs are stored here
 
 ## Dependencies
 
-- docx2txt - For extracting text from Word documents
-- pandas - For data manipulation
-- mysql-connector-python - For database connectivity
+- **docx2txt** (0.8) - For extracting text from Word documents
+- **pandas** (2.2.0) - For data manipulation
+- **mysql-connector-python** (8.3.0) - For database connectivity
+- **python-dotenv** (1.0.1) - For environment variable management
+- **sqlalchemy** (2.0.25) - For ORM functionality
+- **pymysql** (1.1.0) - MySQL driver for SQLAlchemy
 
 ## Notes
 
 - SSNs are stored as CHAR(9) to preserve leading zeros
 - All dates are stored in YYYY-MM-DD format
 - The script automatically extracts company name and report date from the document
+- Windows Zone.Identifier metadata files are automatically handled during archiving
+- Duplicate imports are prevented by unique payment_id constraint
+- All operations are logged with timestamps for audit trails
+
+## Recent Updates (June 2025)
+
+- Added command-line interface to `eaa_db_importer.py` with flexible file/directory options
+- Implemented automatic file archiving after successful processing
+- Created `process_eaa_payments.py` for complete workflow automation
+- Enhanced logging with dedicated log directory and timestamped log files
+- Added support for processing files from `/PaymentFiles/EAA/` directory
+- Created utility scripts for checking import status and archiving completed files
+- Updated to handle Windows Zone.Identifier metadata files
