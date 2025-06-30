@@ -1,31 +1,50 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
+# Virtual environments
 venv/
-env/
-ENV/
+wf_venv/
+**/venv/
+**/*venv/
 
-# Logs
+# Archive folders
+archive/
+**/archive/
+
+# Data files
+*.csv
+*.xlsx
+*.xls
+*.dbf
+*.DBF
+
+# Log files
 *.log
+logs/
 
-# Environment variables
-.env
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# IDE
+# IDE specific files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# OS specific files
 .DS_Store
 Thumbs.db
 
-# Project specific
-*.db
-*.sqlite3
-temp/
-tmp/
+# Zone Identifier files (Windows WSL)
+*:Zone.Identifier
+
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Payment files directories
+PaymentFiles/
+images/
