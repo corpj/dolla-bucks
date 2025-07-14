@@ -248,16 +248,16 @@ class PNCImporter:
             
             # Format date field
             try:
-                # Parse dates with specific format including timezone
+                # First try simple MM/DD/YYYY format (most common)
                 df['AsOfDate'] = pd.to_datetime(df['AsOfDate'], 
-                                                format='%m/%d/%Y %I:%M:%S %p CDT', 
+                                                format='%m/%d/%Y', 
                                                 errors='coerce')
-                # If that doesn't work, try without timezone
+                # If that doesn't work, try with time and timezone
                 mask = df['AsOfDate'].isna()
                 if mask.any():
                     df.loc[mask, 'AsOfDate'] = pd.to_datetime(
                         df.loc[mask, 'AsOfDate'], 
-                        format='%m/%d/%Y', 
+                        format='%m/%d/%Y %I:%M:%S %p CDT', 
                         errors='coerce'
                     )
                 
