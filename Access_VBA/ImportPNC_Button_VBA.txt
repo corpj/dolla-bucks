@@ -1,0 +1,103 @@
+' VBA Code for MS Access ImportPNC_Button
+' Author: Lil Claudy Flossy
+' This code should be attached to the ImportPNC_Button Click event
+
+Private Sub ImportPNC_Button_Click()
+    On Error GoTo ErrorHandler
+    
+    Dim strBatchFile As String
+    Dim intResult As Integer
+    Dim strMessage As String
+    
+    ' Path to the batch file - adjust this path based on where you save the .bat file
+    ' You can use a Windows path like "C:\path\to\run_pnc_import.bat"
+    ' Or a UNC path if the file is on a network share
+    strBatchFile = "\\wsl$\Ubuntu\home\corpj\projects\dolla-bucks\PNC\run_pnc_import.bat"
+    
+    ' Alternative: If you copy the .bat file to a Windows location
+    ' strBatchFile = "C:\PaymentScripts\run_pnc_import.bat"
+    
+    ' Show confirmation dialog
+    intResult = MsgBox("Are you sure you want to run the PNC Import process?" & vbCrLf & vbCrLf & _
+                      "This will import all CSV files from the PNC payment directory.", _
+                      vbYesNo + vbQuestion, "Confirm PNC Import")
+    
+    If intResult = vbYes Then
+        ' Update status
+        Me.Refresh
+        DoCmd.Hourglass True
+        
+        ' Run the batch file
+        ' Shell command runs the batch file and waits for completion
+        Call Shell("cmd.exe /c """ & strBatchFile & """", vbNormalFocus)
+        
+        ' Turn off hourglass
+        DoCmd.Hourglass False
+        
+        ' Show completion message
+        MsgBox "PNC Import process has been initiated." & vbCrLf & vbCrLf & _
+               "Please check the command window for progress and results." & vbCrLf & _
+               "Logs are saved in the PNC/logs directory.", _
+               vbInformation, "Import Started"
+    End If
+    
+    Exit Sub
+    
+ErrorHandler:
+    DoCmd.Hourglass False
+    MsgBox "Error " & Err.Number & ": " & Err.Description & vbCrLf & vbCrLf & _
+           "Please ensure the batch file exists at:" & vbCrLf & strBatchFile, _
+           vbCritical, "Import Error"
+End Sub
+
+' Alternative version that runs in test mode first
+Private Sub ImportPNC_Button_Click_SafeMode()
+    On Error GoTo ErrorHandler
+    
+    Dim strBatchFile As String
+    Dim strTestBatchFile As String
+    Dim intResult As Integer
+    
+    ' Paths to the batch files
+    strTestBatchFile = "\\wsl$\Ubuntu\home\corpj\projects\dolla-bucks\PNC\run_pnc_import_test.bat"
+    strBatchFile = "\\wsl$\Ubuntu\home\corpj\projects\dolla-bucks\PNC\run_pnc_import.bat"
+    
+    ' First run in test mode
+    intResult = MsgBox("Would you like to run a TEST import first?" & vbCrLf & vbCrLf & _
+                      "This will process files without making database changes.", _
+                      vbYesNoCancel + vbQuestion, "PNC Import - Test Mode")
+    
+    Select Case intResult
+        Case vbYes
+            ' Run test mode
+            Call Shell("cmd.exe /c """ & strTestBatchFile & """", vbNormalFocus)
+            
+            ' After test, ask if they want to run the real import
+            intResult = MsgBox("Test import initiated. After reviewing the test results," & vbCrLf & _
+                             "would you like to run the actual import?", _
+                             vbYesNo + vbQuestion, "Run Actual Import?")
+            
+            If intResult = vbYes Then
+                Call Shell("cmd.exe /c """ & strBatchFile & """", vbNormalFocus)
+            End If
+            
+        Case vbNo
+            ' Run actual import directly
+            intResult = MsgBox("Are you sure you want to run the ACTUAL import?" & vbCrLf & _
+                             "This will make changes to the database.", _
+                             vbYesNo + vbExclamation, "Confirm Actual Import")
+            
+            If intResult = vbYes Then
+                Call Shell("cmd.exe /c """ & strBatchFile & """", vbNormalFocus)
+            End If
+            
+        Case vbCancel
+            ' Do nothing
+            Exit Sub
+    End Select
+    
+    Exit Sub
+    
+ErrorHandler:
+    MsgBox "Error " & Err.Number & ": " & Err.Description, vbCritical, "Import Error"
+End Sub

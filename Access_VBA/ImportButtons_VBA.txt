@@ -1,0 +1,171 @@
+' VBA Code for MS Access Import Buttons
+' Author: Lil Claudy Flossy
+' This code includes click events for ImportWF_Button and ImportEAA_Button
+
+'===========================================================
+' WELLS FARGO IMPORT BUTTON
+'===========================================================
+Private Sub ImportWF_Button_Click()
+    On Error GoTo ErrorHandler
+    
+    Dim strBatchFile As String
+    Dim intResult As Integer
+    Dim strMessage As String
+    
+    ' Path to the batch file - adjust based on your setup
+    strBatchFile = "\\wsl$\Ubuntu\home\corpj\projects\dolla-bucks\WF\run_wf_import.bat"
+    
+    ' Alternative: If you copy the .bat file to Windows
+    ' strBatchFile = "C:\PaymentScripts\run_wf_import.bat"
+    
+    ' Show confirmation dialog
+    intResult = MsgBox("Are you sure you want to run the Wells Fargo Import process?" & vbCrLf & vbCrLf & _
+                      "This will import all Excel files from the WF payment directory.", _
+                      vbYesNo + vbQuestion, "Confirm Wells Fargo Import")
+    
+    If intResult = vbYes Then
+        ' Update status
+        Me.Refresh
+        DoCmd.Hourglass True
+        
+        ' Run the batch file
+        Call Shell("cmd.exe /c """ & strBatchFile & """", vbNormalFocus)
+        
+        ' Turn off hourglass
+        DoCmd.Hourglass False
+        
+        ' Show completion message
+        MsgBox "Wells Fargo Import process has been initiated." & vbCrLf & vbCrLf & _
+               "Please check the command window for progress and results." & vbCrLf & _
+               "Logs are saved in the WF directory.", _
+               vbInformation, "Import Started"
+    End If
+    
+    Exit Sub
+    
+ErrorHandler:
+    DoCmd.Hourglass False
+    MsgBox "Error " & Err.Number & ": " & Err.Description & vbCrLf & vbCrLf & _
+           "Please ensure the batch file exists at:" & vbCrLf & strBatchFile, _
+           vbCritical, "Import Error"
+End Sub
+
+'===========================================================
+' EAA IMPORT BUTTON
+'===========================================================
+Private Sub ImportEAA_Button_Click()
+    On Error GoTo ErrorHandler
+    
+    Dim strBatchFile As String
+    Dim intResult As Integer
+    Dim strMessage As String
+    
+    ' Path to the batch file - adjust based on your setup
+    strBatchFile = "\\wsl$\Ubuntu\home\corpj\projects\dolla-bucks\EAA\run_eaa_import.bat"
+    
+    ' Alternative: If you copy the .bat file to Windows
+    ' strBatchFile = "C:\PaymentScripts\run_eaa_import.bat"
+    
+    ' Show confirmation dialog
+    intResult = MsgBox("Are you sure you want to run the EAA Import process?" & vbCrLf & vbCrLf & _
+                      "This will process the latest Word document from the EAA payment directory." & vbCrLf & _
+                      "Make sure you have placed the .docx file in PaymentFiles/EAA/", _
+                      vbYesNo + vbQuestion, "Confirm EAA Import")
+    
+    If intResult = vbYes Then
+        ' Update status
+        Me.Refresh
+        DoCmd.Hourglass True
+        
+        ' Run the batch file
+        Call Shell("cmd.exe /c """ & strBatchFile & """", vbNormalFocus)
+        
+        ' Turn off hourglass
+        DoCmd.Hourglass False
+        
+        ' Show completion message
+        MsgBox "EAA Import process has been initiated." & vbCrLf & vbCrLf & _
+               "Please check the command window for progress and results." & vbCrLf & _
+               "The process will:" & vbCrLf & _
+               "1. Extract data from the Word document" & vbCrLf & _
+               "2. Create a CSV file" & vbCrLf & _
+               "3. Import to database and match customers" & vbCrLf & vbCrLf & _
+               "Logs are saved in the EAA directory.", _
+               vbInformation, "Import Started"
+    End If
+    
+    Exit Sub
+    
+ErrorHandler:
+    DoCmd.Hourglass False
+    MsgBox "Error " & Err.Number & ": " & Err.Description & vbCrLf & vbCrLf & _
+           "Please ensure:" & vbCrLf & _
+           "1. The batch file exists at: " & strBatchFile & vbCrLf & _
+           "2. Word documents are in PaymentFiles/EAA/", _
+           vbCritical, "Import Error"
+End Sub
+
+'===========================================================
+' OPTIONAL: Wells Fargo - Import Latest File Only
+'===========================================================
+Private Sub ImportWF_Latest_Button_Click()
+    On Error GoTo ErrorHandler
+    
+    Dim strBatchFile As String
+    Dim intResult As Integer
+    
+    ' Path to the latest-only batch file
+    strBatchFile = "\\wsl$\Ubuntu\home\corpj\projects\dolla-bucks\WF\run_wf_import_latest.bat"
+    
+    ' Show confirmation dialog
+    intResult = MsgBox("Import only the LATEST Wells Fargo Excel file?" & vbCrLf & vbCrLf & _
+                      "This will process only the most recent file in the WF directory.", _
+                      vbYesNo + vbQuestion, "Import Latest WF File")
+    
+    If intResult = vbYes Then
+        DoCmd.Hourglass True
+        Call Shell("cmd.exe /c """ & strBatchFile & """", vbNormalFocus)
+        DoCmd.Hourglass False
+        
+        MsgBox "Processing latest Wells Fargo file...", vbInformation, "Import Started"
+    End If
+    
+    Exit Sub
+    
+ErrorHandler:
+    DoCmd.Hourglass False
+    MsgBox "Error: " & Err.Description, vbCritical, "Import Error"
+End Sub
+
+'===========================================================
+' OPTIONAL: All Imports with Options
+'===========================================================
+Private Sub RunAllImports_Click()
+    On Error GoTo ErrorHandler
+    
+    Dim intResult As Integer
+    
+    intResult = MsgBox("Run ALL payment imports?" & vbCrLf & vbCrLf & _
+                      "This will run:" & vbCrLf & _
+                      "1. PNC Import" & vbCrLf & _
+                      "2. Wells Fargo Import" & vbCrLf & _
+                      "3. EAA Import" & vbCrLf & vbCrLf & _
+                      "Continue?", _
+                      vbYesNo + vbQuestion, "Run All Imports")
+    
+    If intResult = vbYes Then
+        ' Run each import
+        Call ImportPNC_Button_Click
+        Call ImportWF_Button_Click
+        Call ImportEAA_Button_Click
+        
+        MsgBox "All imports have been initiated." & vbCrLf & _
+               "Check individual command windows for results.", _
+               vbInformation, "All Imports Started"
+    End If
+    
+    Exit Sub
+    
+ErrorHandler:
+    MsgBox "Error: " & Err.Description, vbCritical, "Import Error"
+End Sub
