@@ -248,16 +248,27 @@ class PNCImporter:
             
             # Format date field
             try:
-                # First try simple MM/DD/YYYY format (most common)
+                # Store original values for debugging
+                original_dates = df['AsOfDate'].copy()
+                
+                # First try simple MM/DD/YYYY format
                 df['AsOfDate'] = pd.to_datetime(df['AsOfDate'], 
                                                 format='%m/%d/%Y', 
                                                 errors='coerce')
-                # If that doesn't work, try with time and timezone
+                
+                # For any that failed, try the format with time and timezone
                 mask = df['AsOfDate'].isna()
                 if mask.any():
+                    # Reset to original values for the failed ones
+                    failed_dates = original_dates[mask]
+                    # Try parsing with time format (case insensitive for AM/PM, remove timezone)
+                    cleaned_dates = failed_dates.str.replace(' am ', ' AM ', case=False).str.replace(' pm ', ' PM ', case=False)
+                    # Remove timezone suffix (CDT, CST, etc.)
+                    cleaned_dates = cleaned_dates.str.replace(r'\s+[A-Z]{3}$', '', regex=True)
+                    
                     df.loc[mask, 'AsOfDate'] = pd.to_datetime(
-                        df.loc[mask, 'AsOfDate'], 
-                        format='%m/%d/%Y %I:%M:%S %p CDT', 
+                        cleaned_dates, 
+                        format='%m/%d/%Y %I:%M:%S %p', 
                         errors='coerce'
                     )
                 
@@ -267,6 +278,10 @@ class PNCImporter:
                 nat_count = df['AsOfDate'].isna().sum()
                 if nat_count > 0:
                     logger.warning(f"Found {nat_count} records with invalid dates")
+                    # Log some example invalid dates for debugging
+                    invalid_dates = original_dates[df['AsOfDate'].isna()]
+                    for idx, date_str in invalid_dates.head(5).items():
+                        logger.warning(f"Invalid date example: '{date_str}'")
             except Exception as e:
                 logger.error(f"Error parsing date fields: {str(e)}")
             

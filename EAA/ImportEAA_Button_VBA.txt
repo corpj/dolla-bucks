@@ -1,0 +1,92 @@
+' VBA Code for MS Access ImportEAA_Button Click Event
+' Author: Lil Claudy Flossy
+' 
+' Add this code to the On Click event of your ImportEAA_Button in MS Access
+
+Private Sub ImportEAA_Button_Click()
+    Dim scriptPath As String
+    Dim result As Long
+    
+    ' Path to the WSL batch script for processing EAA payments
+    scriptPath = "\\wsl.localhost\Ubuntu\home\corpj\projects\dolla-bucks\EAA\process_eaa_payments_wsl.bat"
+    
+    ' Check if the script exists
+    If Dir(scriptPath) = "" Then
+        MsgBox "Error: Processing script not found at:" & vbCrLf & scriptPath & vbCrLf & vbCrLf & _
+               "Please check the script path.", vbCritical, "Script Not Found"
+        Exit Sub
+    End If
+    
+    ' Show confirmation dialog
+    If MsgBox("This will process EAA payment documents (DOCX to CSV to Database)." & vbCrLf & vbCrLf & _
+              "Continue with processing?", vbYesNo + vbQuestion, "Process EAA Payments") = vbNo Then
+        Exit Sub
+    End If
+    
+    ' Disable the button to prevent multiple clicks
+    Me.ImportEAA_Button.Enabled = False
+    DoCmd.Hourglass True
+    
+    ' Run the batch script
+    ' Use Shell with vbNormalFocus to show the command window
+    result = Shell("""" & scriptPath & """", vbNormalFocus)
+    
+    ' Re-enable button
+    DoCmd.Hourglass False
+    Me.ImportEAA_Button.Enabled = True
+    
+    ' Check if Shell succeeded
+    If result = 0 Then
+        MsgBox "Error: Failed to launch import script.", vbCritical, "Import Error"
+    Else
+        MsgBox "Processing has been started." & vbCrLf & vbCrLf & _
+               "This will process DOCX files to CSV and import to database." & vbCrLf & _
+               "Check the command window for progress and results.", vbInformation, "Processing Started"
+    End If
+End Sub
+
+' Alternative version using PowerShell (if preferred)
+Private Sub ImportEAA_Button_Click_PowerShell()
+    Dim scriptPath As String
+    Dim projectPath As String
+    Dim result As Long
+    
+    ' Get the path to your dolla-bucks project
+    ' IMPORTANT: Update this path to match your actual project location
+    projectPath = "C:\path\to\your\dolla-bucks"
+    
+    ' Build the full path to the PowerShell script
+    scriptPath = projectPath & "\EAA\run_eaa_importer.ps1"
+    
+    ' Check if the script exists
+    If Dir(scriptPath) = "" Then
+        MsgBox "Error: Import script not found at:" & vbCrLf & scriptPath & vbCrLf & vbCrLf & _
+               "Please update the projectPath variable in the VBA code.", vbCritical, "Script Not Found"
+        Exit Sub
+    End If
+    
+    ' Show confirmation dialog
+    If MsgBox("This will process EAA payment documents (DOCX to CSV to Database)." & vbCrLf & vbCrLf & _
+              "Continue with processing?", vbYesNo + vbQuestion, "Process EAA Payments") = vbNo Then
+        Exit Sub
+    End If
+    
+    ' Disable the button to prevent multiple clicks
+    Me.ImportEAA_Button.Enabled = False
+    DoCmd.Hourglass True
+    
+    ' Run the PowerShell script
+    result = Shell("powershell.exe -ExecutionPolicy Bypass -File """ & scriptPath & """", vbNormalFocus)
+    
+    ' Re-enable button
+    DoCmd.Hourglass False
+    Me.ImportEAA_Button.Enabled = True
+    
+    ' Check if Shell succeeded
+    If result = 0 Then
+        MsgBox "Error: Failed to launch import script.", vbCritical, "Import Error"
+    Else
+        MsgBox "Import process has been started." & vbCrLf & vbCrLf & _
+               "Check the PowerShell window for progress and results.", vbInformation, "Import Started"
+    End If
+End Sub
